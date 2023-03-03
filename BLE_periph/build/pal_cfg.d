@@ -1,0 +1,29 @@
+C:/Users/Nplano2/eclipse-workspace/BLE_periph/build/pal_cfg.o: \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/Cordio/platform/targets/maxim/max32655/sources/pal_cfg.c \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/Cordio/platform/include/pal_cfg.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/Cordio/platform/include/pal_types.h \
+ c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\lib\gcc\arm-none-eabi\10.3.1\include\stdint.h \
+ c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\stdint.h \
+ c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\machine\_default_types.h \
+ c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\sys\features.h \
+ c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\_newlib_version.h \
+ c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\sys\_intsup.h \
+ c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\sys\_stdint.h \
+ c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\lib\gcc\arm-none-eabi\10.3.1\include\stddef.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/Cordio/platform/include/pal_sys.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/Cordio/wsf/include/ll_defs.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/Cordio/wsf/include/wsf_types.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/PeriphDrivers/Include/MAX32655/mxc_sys.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/PeriphDrivers/Include/MAX32655/mxc_device.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/CMSIS/Device/Maxim/MAX32655/Include/max32655.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/CMSIS/Include/core_cm4.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/CMSIS/Include/core_cmInstr.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/CMSIS/Include/core_cmFunc.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/CMSIS/Include/core_cm4_simd.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/CMSIS/Device/Maxim/MAX32655/Include/system_max32655.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/PeriphDrivers/Include/MAX32655/mxc_errors.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/PeriphDrivers/Include/MAX32655/mxc_pins.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/PeriphDrivers/Include/MAX32655/gpio.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/CMSIS/Device/Maxim/MAX32655/Include/gpio_regs.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/CMSIS/Device/Maxim/MAX32655/Include/gcr_regs.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/CMSIS/Device/Maxim/MAX32655/Include/lpgcr_regs.h

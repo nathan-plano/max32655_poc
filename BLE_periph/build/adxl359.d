@@ -60,4 +60,5 @@ C:/Users/Nplano2/eclipse-workspace/BLE_periph/build/adxl359.o: adxl359.c \
  c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\sys\sched.h \
  c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\machine\types.h \
  c:\users\nplano2\documents\projects\maximsdk\tools\gnutools\10.3\arm-none-eabi\include\sys\stdio.h \
- C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/PeriphDrivers/Include/MAX32655/mxc_delay.h
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/PeriphDrivers/Include/MAX32655/mxc_delay.h \
+ C:/Users/Nplano2/Documents/Projects/MaximSDK/Libraries/PeriphDrivers/Include/MAX32655/gpio.h

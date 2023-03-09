@@ -14,6 +14,31 @@
 #include <stdint.h>
 #include <string.h>
 #include "mxc_delay.h"
+#include "gpio.h"
+
+#define MXC_GPIO_PORT_IN MXC_GPIO1
+#define MXC_GPIO_PIN_IN MXC_GPIO_PIN_8
+mxc_gpio_cfg_t drdy;
+
+void adxl355_init_drdy(){
+	drdy.port = MXC_GPIO_PORT_IN;
+	drdy.mask = MXC_GPIO_PIN_IN;
+	drdy.pad = MXC_GPIO_PAD_NONE;
+	drdy.func = MXC_GPIO_FUNC_IN;
+	drdy.vssel = MXC_GPIO_VSSEL_VDDIO;
+	MXC_GPIO_Config(&drdy);
+
+}
+
+uint16_t adxl355_drdy_get(){
+
+	return (uint16_t)(MXC_GPIO_InGet(drdy.port, drdy.mask)>>8);
+
+}
+
+
+
+
 
 
 int adxl355_read_device_data(mxc_spi_regs_t *spi, uint8_t base_address,uint16_t size, uint8_t *read_data){
@@ -89,6 +114,16 @@ int adxl355_get_raw_xyz(mxc_spi_regs_t *spi, uint16_t *raw_x,uint16_t *raw_y, ui
 
 
 
+int adxl355_get_status(mxc_spi_regs_t *spi, uint8_t *status){
+	int ret;
+	uint8_t status_temp = {0};
+	ret = adxl355_read_device_data(spi,ADXL355_ADDR(ADXL355_STATUS),1,&status_temp);
+	*status =status_temp & 0x01;
+
+	return ret;
+}
+
+
 int adxl355_soft_reset(mxc_spi_regs_t *spi){
 	uint8_t tx_data[2];
 	tx_data[0]=ADXL355_RESET_CODE;
@@ -129,23 +164,37 @@ int adxl355_set_self_test(mxc_spi_regs_t *spi, uint8_t self_test){
 }
 
 
+
 int create_data_array(mxc_spi_regs_t *spi, uint32_t samplerate_us,uint16_t size,uint16_t *array){
-	uint16_t num_iterate= (size/3);
+	int iterate =((int)(size/3));
 	int ret;
 	uint16_t raw_x;
 	uint16_t raw_y;
 	uint16_t raw_z;
+	uint8_t status;
+	uint16_t drdy_status;
+	int i =0;
+	int sample=0;
+	while( i <iterate )
+	{
+		drdy_status =adxl355_drdy_get();
 
+		if((drdy_status==1) &(sample==0)){
+			adxl355_get_raw_xyz(spi,  &raw_x,&raw_y,&raw_z);
+			array[i]=raw_x;
+			array[i+iterate]=raw_y;
+			array[i+iterate*2]=raw_z;
+			i++;
+			sample=1;
+		}
 
-	for( int i =0; i <num_iterate ; i++){
-		MXC_Delay(samplerate_us);
-		adxl355_get_raw_xyz(spi,  &raw_x,&raw_y,&raw_z);
-		array[i]=raw_x;
-		array[i+num_iterate]=raw_y;
-		array[i+num_iterate*2]=raw_z;
+		if((drdy_status==0) &(sample==1)){
+			sample=0;
+
+		}
+
 	}
-
-	return ret;
+	return 1;
 
 }
 

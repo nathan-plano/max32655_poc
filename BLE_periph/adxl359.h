@@ -76,3 +76,7 @@ int create_data_array(mxc_spi_regs_t *spi, uint32_t samplerate_us,uint16_t size,
 print_registers(mxc_spi_regs_t *spi);
 int adxl355_set_filter(mxc_spi_regs_t *spi, uint8_t filter_op);
 int adxl355_set_self_test(mxc_spi_regs_t *spi, uint8_t self_test);
+int adxl355_get_status(mxc_spi_regs_t *spi, uint8_t *status);
+void adxl355_init_drdy();
+uint16_t adxl355_drdy_get();
+

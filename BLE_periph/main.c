@@ -240,6 +240,7 @@ void readCallback(mxc_uart_req_t *req, int error)
 #include "spi.h"
 #include "dma.h"
 #include "adxl359.h"
+#include "gpio.h"
 
 
 /***** Definitions *****/
@@ -249,6 +250,8 @@ void readCallback(mxc_uart_req_t *req, int error)
 #define MOSI_PIN 21
 #define MISO_PIN 22
 #define FTHR_Defined 1
+
+
 
 /*************************************************************************************************/
 /*!
@@ -269,7 +272,6 @@ int main(void)
     int error, i, fail = 0;
 	uint8_t RxData[BUFF_SIZE];
 	uint8_t TxData[BUFF_SIZE];
-
 	mxc_spi_pins_t spi_pins;
 	spi_pins.clock = TRUE;
 	spi_pins.miso = TRUE;
@@ -284,13 +286,21 @@ int main(void)
 	MXC_SPI_SetWidth(SPI,SPI_WIDTH_STANDARD);
 	MXC_SPI_SetDataSize(SPI, 8);
 	adxl355_soft_reset(SPI);
-	adxl355_set_filter(SPI,0x20);
-	adxl355_set_op_mode(SPI,0);
+	adxl355_soft_reset(SPI);
+	adxl355_soft_reset(SPI);
+	adxl355_set_filter(SPI,0x30);
 	print_registers(SPI);
+
+
+	adxl355_set_op_mode(SPI,0);
 	uint16_t array[24000];
 	int data_len=0;
 	int set_data;
 	set_rx_data(RxData);
+	adxl355_init_drdy();
+
+
+
 
 	int create_array = 0;
 
@@ -310,12 +320,13 @@ int main(void)
 			wsfOsDispatcher();
     	}
 
+
     	if(set_data==0){
     		data_len= (int)get_data_len()*250;
 
     		memset(array, 0x0, data_len);
 
-    	    create_data_array(SPI,177, data_len,array);
+    	    create_data_array(SPI,3, data_len,array);
 
     	    int k =0;
 			 for( int i=0; i<data_len; i++){
@@ -329,11 +340,13 @@ int main(void)
 
     		}
 
+
     	//model checks here
 
 
 
     	while(get_send_flag()==0 &&get_connected_status()==1){
+    				printf("notify\n");
     				MXC_Delay(100000);
     				notify_pc();
     	    		wsfOsDispatcher();

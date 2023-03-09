@@ -94,7 +94,7 @@ def notification_handler(sender, data):
                     # if(value>30000 or value<-30000):
                     #     value=0
                     signal[start*250+i]=value
-                # print(signal[start*250:start*250+100])
+                print(signal[start*250:start*250+100])
 
             check[start]=1
    
@@ -132,7 +132,7 @@ async def run(address):
         while(connected): 
            # print("stuck333333")           
             lock.acquire()
-            # print("updater got lock")
+            print("updater got lock")
             if(send_data_len==1):
                 print(number_chuncks)
                 
@@ -169,7 +169,7 @@ async def run(address):
             
             
             lock.release()
-            # print("updater realsed lock")
+            print("updater realsed lock")
         await client.stop_notify(uuid)
     await client.disconnect()
         
@@ -242,6 +242,7 @@ def save_data():
 def app(): 
 
     global continuePlotting 
+    global collect_data_flag
     
     continuePlotting=True
     collect_data_flag=0
@@ -300,16 +301,14 @@ def app():
                 ax[0].set_xlabel('Frequnecy',fontsize=15)
                 ax[1].set_xlabel('Frequnecy',fontsize=15)
                 ax[2].set_xlabel('Frequnecy',fontsize=15)
-            print("1.5")
-            # if(collect_data_flag==0):
-            graph.draw() 
-            print("2")
-            # if(dpts[3]==0):
-            #     c.itemconfig(oval, fill='green')
-            #     c.itemconfig(text, text="Healthy Data")
-            # else:
-            #     c.itemconfig(oval, fill='red')
-            #     c.itemconfig(text, text="Anomalous Data")
+        
+            graph.draw()
+            if(dpts[3]==0):
+                c.itemconfig(oval, fill='green')
+                c.itemconfig(text, text="Healthy Data")
+            else:
+                c.itemconfig(oval, fill='red')
+                c.itemconfig(text, text="Anomalous Data")
             lock.release()
             
             print("plotter lost lock ") 
@@ -317,6 +316,7 @@ def app():
  
 
     def gui_handler(): 
+        print("test")
         change_state() 
         threading.Thread(target=plotter, daemon=True).start()
     def connect_handler(): 

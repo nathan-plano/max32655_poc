@@ -94,7 +94,7 @@ def notification_handler(sender, data):
                     # if(value>30000 or value<-30000):
                     #     value=0
                     signal[start*250+i]=value
-                print(signal[start*250:start*250+100])
+                # print(signal[start*250:start*250+100])
 
             check[start]=1
    
@@ -112,7 +112,7 @@ async def run(address):
     global data_len
     start_sending=0
 
-    global data_len
+    global collect_data_flag
     number_chuncks = int(3*data_len/250)
 
 
@@ -132,7 +132,7 @@ async def run(address):
         while(connected): 
            # print("stuck333333")           
             lock.acquire()
-            print("updater got lock")
+            # print("updater got lock")
             if(send_data_len==1):
                 print(number_chuncks)
                 
@@ -161,14 +161,15 @@ async def run(address):
                                     check_all_sent=0
                                     check[i] =1
                                     check_sent[i]=0
-                collect_data_flag=1
+                if(collect_data_flag==1):
+                    save_data()
                 start_sending=0
             else:
                 await asyncio.sleep(0.01)
             
             
             lock.release()
-            print("updater realsed lock")
+            # print("updater realsed lock")
         await client.stop_notify(uuid)
     await client.disconnect()
         
@@ -210,31 +211,29 @@ def get_data():
         flux_signal[0] = 0
     return vibx_signal,vibz_signal,flux_signal,CNN_ouput
 
-def save_data(number_of_windows,directory):
+def save_data():
     global signal
-    global collect_data_flag
     global data_len
-    num=0
-    while(num<number_of_windows):
+    global directory
+    global total_num_windows
+    global current_num_windows
+    global collect_data_flag
 
-        if(collect_data_flag==1):
-            lock.acquire()
-            print("collect_data got lock ")
-            save = np.empty((1,3,data_len))
-            vibx_signal =signal[0:data_len]
-            vibz_signal = signal[data_len:2*data_len]
-            flux_signal = signal[2*data_len:3*data_len]
-            save[0,0]=vibx_signal
-            save[0,1]=vibz_signal
-            save[0,2]=flux_signal
-            collect_data_flag=0
-            num=num+1
-            now = datetime.now()
-            date_time = now.strftime("%m_%d_%Y_%H_%M_%S")
-            my_file = directory+"/"+date_time+'npy'
-            np.save(my_file, save)
-            lock.release()
-            print("collect released  lock ")
+    if(current_num_windows<total_num_windows):
+        current_num_windows=current_num_windows+1
+        save = np.empty((1,3,data_len))
+        vibx_signal =signal[0:data_len]
+        vibz_signal = signal[data_len:2*data_len]
+        flux_signal = signal[2*data_len:3*data_len]
+        save[0,0]=vibx_signal
+        save[0,1]=vibz_signal
+        save[0,2]=flux_signal
+        now = datetime.now()
+        date_time = now.strftime("%m_%d_%Y_%H_%M_%S")
+        my_file = directory+"/"+date_time+'npy'
+        np.save(my_file, save)
+    else:
+        collect_data_flag=0
     return
     
 
@@ -340,10 +339,14 @@ def app():
             FFT_Time_state=0
     
     def collect_data():
-
-        windows=int(E1.get())
-        Directory = E2.get()
-        threading.Thread(target=save_data(windows,Directory), daemon=True).start() 
+        global directory
+        global total_num_windows
+        global current_num_windows
+        global collect_data_flag
+        current_num_windows=0
+        total_num_windows=int(E1.get())
+        directory = E2.get()
+        collect_data_flag=1
 
     b = Button(root, text="Start/Stop", command=gui_handler, bg="green", fg="white",height= 4, width=15,font=('Helvetica bold', 26)) 
     b.pack() 
